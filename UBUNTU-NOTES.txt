@@ -1,0 +1,165 @@
+You may have to Fix Java on a base install of 11.10:
+#cd /usr/lib/jvm
+#ln -s java-6-openjdk default-java
+
+Needed to install:
+
+jenkins
+autoconf
+emacs23 (not required)
+kpartx
+libtool
+uuid-dev
+xfslibs-dev
+xfsdump
+python-xattr
+libacl1-dev
+libaio-dev (needed to build xfstests aio-dio-regress test)
+quota (required for xfstests)
+g++ (needed for bonnie test)
+
+sudo apt-get install jenkins autoconf emacs23 kpartx libtool uuid-dev xfslibs-dev xfsdump python-xattr libacl1-dev
+
+Set up sudo privs for jenkins:
+
+add a file: /etc/sudoers.d/jenkins with the line: jenkins ALL=(ALL:ALL) NOPASSWD: ALL
+chmod 0440 /etc/sudoers.d/jenkins
+
+============= autotest ==============
+Several patches, in git
+
+xfstests:
+  add partitions, mount point, and test definition to client/tests/xfstests/control
+
+I had to edit /src/autotest/client/tests/xfstests/src/228.out -
+change "File size limit exceeded" to "fallocate: File too large"
+
+* test 010 requires building dbtest.c, which is part of the xfstests source. If the package libgdbm-dev is installed, configure will pick it up and try to build dbtest, but it will fail to link.
+
+* Test 219 fails - output shows 148 blocks used instead of the expected 144 -
+  This should be checked. I disabled the test for now TODO
+
+You have to have home dirs for a couple of users or tests fail:
+# The jenkins ones may not be required
+sudo usermod --home /home/jenkins jenkins
+sudo mkdir /home/jenkins
+sudo chown jenkins:jenkins /home/jenkins
+
+--
+
+To get everything working, I had to rebuild xfstests:
+cd client/tests/xfstests/src
+sudo make distclean
+sudo make
+cd client/tests/xfstests/src/src
+sudo make
+sudo make install
+
+
+
+============== WARNINGS =============
+
+One of the xfstests corrupts /etc/fstab by removing all leading hash symbols '#' from lines in the file.
+Exact steps to reproduce aren't known but it may involve interrupting the tests.
+The test at fault is probably 189
+
+Some xfstests test failures appear to leave the scratch partition mounted, which causes failure of subsequent tests,
+even on subsequent runs of the jenkins job. Rebooting the Unit Under Test between runs insures identical starting conditions.
+
+============= jenkins job =============
+
+Shell script:
+cd /src/autotest/client
+sudo adduser --quiet --disabled-password -gecos "XFS test user,,," fsgqa || true
+sudo mkdir -p /media/xfsmount
+sudo chown jenkins:jenkins /media/xfsmount
+# !!!! Note that there are partitions and mount points defined in tests/xfstests/control !!!!
+sudo bin/autotest --output_dir=$WORKSPACE tests/xfstests/control
+tools/results2junit.py $WORKSPACE/results/default/* > $WORKSPACE/output.xml
+
+============ List of tests in autotest (with a few notes) ===============
+
+aborttest - a test for testing autotest functionality
+aio_dio_bugs - test error, looks like kernel version skew
+aiostress - test error, fails to build
+barriertest - test error
+bash_shared_mapping - test completes, passes
+bonnie - file system benchmark - took 9 hours 15 minutes to run
+btreplay - not generally useful
+cgroup - test group functionality, test error
+compilebench - runs
+connectathon - nfs test
+cpu_hotplug - cpu hotplug regression tests
+ctcs - cerberus test control system
+cyclictest - tests realtime kernel
+dacapo - Java benchmark
+dbench - kernel stress test and benchmark - no networking
+dbt2 - TPC-C benchmark
+disktest - disk pattern test, checks disk and controller for corruption
+dma_memtest - test memory system under heavy IO and DMA stress with swapping
+ebizzy - stress test, simulates web server load
+ffsb - Flexible File System Benchmark
+fio - I/O stress and benchmark
+    Has an older version of fio. This is probably better run as a direct jenkins job, as fio
+    is packaged and in the archive
+flail - system call fuzzer
+fsdev - format and test FS for ext2, ext4, or XFS
+fsfuzzer - fsfuzzer
+fs_mark - detect barrier issues in file systems
+fsstress - stress test
+fsx - file system regression test
+hackbench - scheduler benchmark
+hwclock - check reading and setting the hardware clock
+interbench - interactivity benchmark
+iosched_bugs - test for an io scheduler regression
+iozone - filesystem analysis
+iperf - TCP/UDP bandwidth measurement
+ipv6connect - IPV6 connections using loopback
+isic - IP stack integrity checker
+kernbench - kernel compile benchmark - kernel fails to build
+kernelbuild - just builds kernels, not performance measurements
+kvm - Run the KVM test framework
+libhugetlbfs - tests basic huge pages functionality
+libvirt - run the libvirt test case
+linus_stress - a stress test
+lmbench - lmbench microbenchmarks
+lsb_dtk - LSB Distribution Test Kit
+ltp - runs ltp
+memory_api - run memory allocation calls
+monotonic_time - check time interfaces for monotonicity
+netperf2 - netperf
+netpipe - network performance
+npb - parallel supercomputer benchmark
+parallel_dd - performance of multiple read/write streams
+perfmon - tests the perfmon2 API
+pi_tests - priority inversion mutex test
+pktgen - high volume network packet generation
+posixtest - the posix test suite
+profiler_sync - synchronize start/stop of profiling across many hosts
+profiler_test - test profiler
+qemu_iotests - test the I/O layer of qemu
+reaim - AIM7 benchmark
+real_time_tests - runs the realtime tests
+rmaptest - create lots of VMAs used by lots of tasks
+rtc - simple test of the realtime clock driver
+rttester - realtime test cases
+scrashme - schrashme test suite, random syscall excercising
+selftest - selftest autotest
+signaltest - test process signal passing
+sleeptest - sleeps for one second
+sparse - some sort of functional test
+spew - test I/O performance and generate load on devices
+stress - stress specified subsystems
+synctest - test of interrupting the sync  syscall
+sysbench - IO benchmark, simulated mySQL loads without mySQL
+systemtap - systemtap test suite
+tbench - benchmark - TCP and process load
+tiobench - Benchmark - threaded I/O
+tracing_microbenchmark - benchmark of kernel tracers
+tsc - check TSC sync between pairs of CPUs
+unixbench - benchmark
+unixbench5 - benchmark
+uptime - runs stress tests for a set length of time
+wb_kupdate - regression test?
+xfstests - file system tests
+xmtest - test Xen userspace tools
