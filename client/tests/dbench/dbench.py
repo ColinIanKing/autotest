@@ -12,6 +12,7 @@ class dbench(test.test):
         os.chdir(self.srcdir)
 
         utils.system('patch -p1 < ../dbench_startup.patch')
+        utils.system('patch < ../dbench_lpthread.patch')
         utils.configure()
         utils.make()
 
