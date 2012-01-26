@@ -23,7 +23,7 @@ from datetime                        import datetime, date
 #stat_compiled_tree_secs{perf}=1.92
 #stat_tree_secs{perf}=1.77
 
-def main(path, testname):
+def main(path, testname, attrs):
 
     # under here is a "results" directory
     # The files we care about are:
@@ -31,6 +31,7 @@ def main(path, testname):
     # results/default/dbench/results/keyval
 
     meta = {}
+    meta.update(attrs)
     metrics = {}
     results = {}
 
@@ -77,6 +78,8 @@ def usage():
     print "    Options:                                                                                 \n",
     print "        --help           Prints this text.                                                   \n",
     print "                                                                                             \n",
+    print "        --attrs=[list of key=value pairs]           A comma delimited list of attributes.    \n",
+    print "                                                                                             \n",
     print "        --testname=<test_name>           The name of the test that was run (required).       \n",
     print "                                                                                             \n",
     print "        --path=<results_path>            The path to the results files (required).           \n",
@@ -88,16 +91,26 @@ if __name__ == "__main__":
     # process command line
     try:
         optsShort = ''
-        optsLong  = ['help', 'testname=', 'path=']
+        optsLong  = ['help', 'testname=', 'attrs=', 'path=']
         opts, args = getopt(argv[1:], optsShort, optsLong)
         testname = None
         path = None
+        attrs = {}
 
         for opt, val in opts:
             if (opt == '--help'):
                 usage()
             elif opt in ('--testname'):
                 testname = val.strip()
+            elif opt in ('--attrs'):
+                for attr in val.split(","):
+                    parts = attr.split("=")
+                    if len(parts) != 2:
+                        print "Error in formatting of attributes"
+                        usage()
+                        exit()
+                    attrs[parts[0]] = parts[1]
+                    
             elif opt in ('--path'):
                 path = val.strip()
 
@@ -108,4 +121,4 @@ if __name__ == "__main__":
         usage()
         exit()
 
-    main(path, testname)
+    main(path, testname, attrs)
