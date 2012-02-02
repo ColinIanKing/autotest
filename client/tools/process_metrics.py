@@ -10,18 +10,6 @@ from getopt                          import getopt, GetoptError
 import os
 import json
 from datetime                        import datetime, date
-#from string                          import replace
-
-#clean_MB_s{perf}=463.92
-#compile_MB_s{perf}=47.70
-#delete_tree_secs{perf}=2.19
-#initial_create_MB_s{perf}=47.48
-#new_create_MB_s{perf}=31.13
-#patch_MB_s{perf}=16.71
-#read_compiled_tree_MB_s{perf}=47.43
-#read_tree_MB_s{perf}=32.48
-#stat_compiled_tree_secs{perf}=1.92
-#stat_tree_secs{perf}=1.77
 
 def main(path, testname, attrs):
 
@@ -96,6 +84,14 @@ if __name__ == "__main__":
         testname = None
         path = None
         attrs = {}
+
+        # set up some attributes we know we want form the environment, if present
+        jenkins_attrs = ['BUILD_NUMBER','BUILD_ID','JOB_NAME','BUILD_TAG','EXECUTOR_NUMBER','NODE_NAME','NODE_LABELS']
+        for aname in jenkins_attrs:
+            if aname in os.environ:
+                attrs[aname] = os.environ[aname]
+            else:
+                attrs[aname] = ''
 
         for opt, val in opts:
             if (opt == '--help'):
