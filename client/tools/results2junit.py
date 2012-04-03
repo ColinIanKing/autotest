@@ -87,7 +87,9 @@ def main(basedir, resfiles):
 
     for propitem in to_collect:
         try:
-            contents = open(os.path.join(basedir, "sysinfo", propitem)).read()
+            rawcontents = open(os.path.join(basedir, "sysinfo", propitem)).read()
+            # the xml processor can only handle ascii
+            contents = ''.join([x for x in rawcontents if ord(x) < 128])
         except:
             contents = "Unable to open the file %s" % os.path.join(basedir, "sysinfo", propitem)
         tp = api.propertyType(propitem, contents)
