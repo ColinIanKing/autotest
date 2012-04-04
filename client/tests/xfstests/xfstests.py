@@ -70,6 +70,7 @@ class xfstests(test.test):
         tarball = utils.unmap_url(self.bindir, tarball, self.tmpdir)
         utils.extract_tarball_to_dir(tarball, self.srcdir)
         os.chdir(self.srcdir)
+        utils.system('patch < ../xfstests_228_text.patch')
         utils.make()
 
         logging.debug("Available tests in srcdir: %s" %

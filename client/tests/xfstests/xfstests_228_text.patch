@@ -1,0 +1,10 @@
+--- 228.out.orig	2011-07-14 11:05:25.000000000 -0500
++++ 228.out	2012-01-03 16:37:15.766328756 -0600
+@@ -1,6 +1,6 @@
+ QA output created by 228
+ File size limit is now set to 100 MB.
+ Let us try to preallocate 101 MB. This should fail.
+-File size limit exceeded
++fallocate: File too large
+ Let us now try to preallocate 50 MB. This should succeed.
+ Test over.
