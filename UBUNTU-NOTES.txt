@@ -34,6 +34,8 @@ xfstests:
 I had to edit /src/autotest/client/tests/xfstests/src/228.out -
 change "File size limit exceeded" to "fallocate: File too large"
 
+* test 010 requires building dbtest.c, which is part of the xfstests source. If the package libgdbm-dev is installed, configure will pick it up and try to build dbtest, but it will fail to link.
+
 * Test 219 fails - output shows 148 blocks used instead of the expected 144 -
   This should be checked. I disabled the test for now TODO
 
