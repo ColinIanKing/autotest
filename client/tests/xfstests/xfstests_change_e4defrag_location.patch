@@ -1,0 +1,11 @@
+--- common.defrag.orig	2012-04-05 13:56:41.329953906 -0500
++++ common.defrag	2012-04-05 13:57:12.505953842 -0500
+@@ -27,7 +27,7 @@
+         DEFRAG_PROG=/usr/sbin/xfs_fsr
+ 	;;
+     ext4|ext4dev)
+-        DEFRAG_PROG=/usr/bin/e4defrag
++        DEFRAG_PROG=/usr/sbin/e4defrag
+ 	;;
+     *)
+         _notrun "defragmentation not supported for fstype \"$FSTYP\""

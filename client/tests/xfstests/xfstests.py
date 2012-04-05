@@ -71,6 +71,7 @@ class xfstests(test.test):
         utils.extract_tarball_to_dir(tarball, self.srcdir)
         os.chdir(self.srcdir)
         utils.system('patch < ../xfstests_228_text.patch')
+        utils.system('patch < ../xfstests_change_e4defrag_location.patch')
         utils.make()
 
         logging.debug("Available tests in srcdir: %s" %
