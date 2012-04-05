@@ -131,7 +131,7 @@ TEST_MATRIX = {
 	    '007' : ['generic'],
 	    '008' : ['xfs'],
 	    '009' : ['xfs'],
-	    '010' : ['generic'],
+	    #'010' : ['generic'], # ext4 fails 'dbtest was not built for this platform' dbtest fails to build/link
 	    '011' : ['generic'],
 	    '012' : ['xfs'],
 	    '013' : ['generic'],
@@ -178,12 +178,12 @@ TEST_MATRIX = {
 	    '054' : ['xfs'],
 	    '055' : ['xfs'],
 	    '056' : ['xfs'],
-	    '057' : ['xfs'],
-	    '058' : ['xfs'],
+	    #'057' : ['xfs'], # Test only valid on IRIX
+	    #'058' : ['xfs'], # Test only valid on IRIX
 	    '059' : ['xfs'],
 	    '060' : ['xfs'],
 	    '061' : ['xfs'],
-	    '062' : ['generic'],
+	    '062' : ['generic'], # ext4 needs attr package installed
 	    '063' : ['xfs'],
 	    '064' : ['xfs'],
 	    '065' : ['xfs'],
@@ -209,20 +209,20 @@ TEST_MATRIX = {
 	    '085' : ['xfs'],
 	    '086' : ['xfs'],
 	    '087' : ['xfs'],
-	    '088' : ['generic'],
+	    '088' : ['generic'], # ext4 child process failed
 	    '089' : ['generic'],
 	    '090' : ['xfs'],
 	    '091' : ['generic'],
 	    '092' : ['xfs'],
-	    '093' : ['generic'],
+	    #'093' : ['generic'], # Test only valid on IRIX
 	    '094' : ['xfs'],
-	    '095' : ['xfs'],
+	    #'095' : ['xfs'], # Test only valid on IRIX
 	    '096' : ['xfs'],
-	    '097' : ['generic'],
-	    '098' : ['udf'],
-	    '099' : ['generic'],
+	    #'097' : ['generic'], # Test only valid on IRIX
+	    #'098' : ['udf'], # Test only valid on IRIX
+	    #'099' : ['generic'], # Test only valid on IRIX
 	    '100' : ['generic'],
-	    '101' : ['udf'],
+	    #'101' : ['udf'], # Test only valid on IRIX
 	    '102' : ['udf'],
 	    '103' : ['xfs'],
 	    '104' : ['xfs'],
@@ -235,8 +235,8 @@ TEST_MATRIX = {
 	    '111' : ['xfs'],
 	    '112' : ['generic'],
 	    '113' : ['generic'],
-	    '114' : ['xfs'],
-	    '115' : ['xfs'],
+	    #'114' : ['xfs'], # Test only valid on IRIX
+	    #'115' : ['xfs'], # Test only valid on IRIX
 	    '116' : ['xfs'],
 	    '117' : ['generic'],
 	    '118' : ['xfs'],
@@ -339,7 +339,7 @@ TEST_MATRIX = {
 	    '215' : ['generic'],
 	    '216' : ['xfs'],
 	    '217' : ['xfs'],
-	    '218' : ['xfs', 'ext4'],
+	    '218' : ['xfs', 'ext4'], # fails - e4defrag is in /usr/sbin, not /usr/bin as expected
 	    '219' : ['generic'],
 	    '220' : ['xfs'],
 	    '221' : ['generic'],
@@ -362,7 +362,7 @@ TEST_MATRIX = {
 	    '238' : ['xfs'],
 	    '239' : ['generic'],
 	    '240' : ['generic'],
-	    '241' : ['generic'],
+	    #'241' : ['generic'], # failed due to lack of dbench
 	    '242' : ['xfs'],
 	    '243' : ['ext4', 'xfs', 'btrfs', 'gfs2'],
 	    '244' : ['xfs'],
@@ -372,16 +372,16 @@ TEST_MATRIX = {
 	    '248' : ['generic'],
 	    '249' : ['generic'],
 	    '250' : ['xfs'],
-	    '251' : ['generic'],
+	    '251' : ['xfs'], # was generic but ext4 - FSTRIM is not supported
 	    '252' : ['xfs'],
 	    '253' : ['xfs'],
 	    '254' : ['btrfs'],
-	    '255' : ['generic'],
+	    '255' : ['xfs'], # test case is marked generic, but xfs_io fiemap support is required
 	    '256' : ['generic'],
 	    '257' : ['generic'],
 	    '258' : ['generic'],
 	    '259' : ['xfs'],
-	    '260' : ['generic'],
+	    '260' : ['xfs'], # was generic but ext4 - FSTRIM is not supported
 	    '261' : ['xfs'],
 	    '262' : ['xfs'],
 	    '263' : ['generic'],
@@ -394,9 +394,9 @@ TEST_MATRIX = {
 	    '270' : ['generic'],
 	    '271' : ['ext4'],
 	    '272' : ['ext3', 'ext4'],
-	    '273' : ['generic'],
+	    '273' : ['generic'], # ext4 fails
 	    '274' : ['generic'],
-	    '275' : ['generic']
+	    '275' : ['generic'] # ext4 fails
 }
 
 #
