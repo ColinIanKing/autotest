@@ -4,16 +4,41 @@ Program that parses the autotest results and generates JUnit test results in XML
 
 Based on scan_results.py, which is @copyright: Red Hat 2008-2009
 """
-from sys                             import argv, stdout, exit
+from sys                             import argv, stdout, stderr, exit
 import os
-from datetime                        import datetime, date
+from datetime                        import date
 #from traceback                       import format_exc
 #from string                          import maketrans
-from xml.sax.saxutils                import escape
 #import uuid
 
 import JUnit_api as api
 
+import json
+
+def dbg(ostr):
+    stderr.write('dbg: %s' % ostr)
+    stderr.flush()
+    return
+
+def dump(obj):
+    stderr.write(json.dumps(obj, sort_keys=True, indent=4))
+    stderr.write('\n')
+
+# file_load
+#
+def file_load(file_name):
+    """
+    Load the indicated file into a string and return the string.
+    """
+
+    retval = None
+    if os.path.exists(file_name):
+        with open(file_name, 'r') as f:
+            retval = f.read()
+    else:
+        stderr.write("  ** Warning: The requested file (%s) does not exist.\n" % file_name)
+
+    return retval
 
 def parse_results(text):
     """
@@ -76,115 +101,113 @@ def main(basedir, resfiles):
     ts.timestamp = date.isoformat(date.today())
 
     # collect some existing report file contents as properties
-    to_collect = [
-        "cmdline","cpuinfo","df","gcc_--version",
-        "installed_packages","interrupts",
-        "ld_--version","lspci_-vvn","meminfo",
-        "modules","mount","partitions",
-        "proc_mounts","slabinfo","uname",
-        "uptime","version"
-        ]
+    if False: # Not sure, the properties don't seem to do anything for us right now.
+        to_collect = [
+            "cmdline","cpuinfo","df","gcc_--version",
+            "installed_packages","interrupts",
+            "ld_--version","lspci_-vvn","meminfo",
+            "modules","mount","partitions",
+            "proc_mounts","slabinfo","uname",
+            "uptime","version"
+            ]
 
-    for propitem in to_collect:
-        try:
-            rawcontents = open(os.path.join(basedir, "sysinfo", propitem)).read()
-            # the xml processor can only handle ascii
-            contents = ''.join([x for x in rawcontents if ord(x) < 128])
-        except:
-            contents = "Unable to open the file %s" % os.path.join(basedir, "sysinfo", propitem)
-        tp = api.propertyType(propitem, contents)
-        properties.add_property(tp)
-    
-    # Parse and add individual results
-    for resfile in resfiles:
-        try:
-            text = open(resfile).read()
-        except IOError, e:
-            if e.errno == 21: # Directory
-                continue
-            else:
-                continue
+        for propitem in to_collect:
+            try:
+                rawcontents = open(os.path.join(basedir, "sysinfo", propitem)).read()
+                # the xml processor can only handle ascii
+                contents = ''.join([x for x in rawcontents if ord(x) < 128])
+            except:
+                contents = "Unable to open the file %s" % os.path.join(basedir, "sysinfo", propitem)
+            tp = api.propertyType(propitem, contents)
+            properties.add_property(tp)
 
-        # status is all we care about
-        if os.path.basename(resfile) == "status":
-            results = parse_results(text)
-            result_lists.append((resfile, results))
-            name_width = max([name_width] + [len(r[0]) for r in results])
+    f = os.path.join(basedir, "status")
+    text = open(f).read()
+    results = parse_results(text)
+    name_width = max([name_width] + [len(r[0]) for r in results])
 
     testcases = []
     tests = 0
     failures = 0
     errors = 0
     time = 0
-    for resfile, results in result_lists:
-        if len(results):
-            for r in results:
+    if len(results):
+        for r in results:
 
-                # handle test case xml generation
-                tname = r[0]
-                # first, see if this is the overall test result
-                if tname.strip() == '----':
-                    testsuite_result = r[1]
-                    testsuite_time = r[2]
-                    continue
+            # handle test case xml generation
+            tname = r[0]
+            # first, see if this is the overall test result
+            if tname.strip() == '----':
+                testsuite_result = r[1]
+                testsuite_time = r[2]
+                continue
 
-                # otherwise, it's a test case
-                tc = api.testcaseType()
-                tc.name = tname
-                tc.classname = 'autotest'
-                tc.time = int(r[2])
-                tests = tests + 1
-                if r[1] == 'GOOD':
-                # success, we append the testcase without an error or fail
-                    pass
-                # Count NA as fails, disable them if you don't want them
-                elif r[1] == 'TEST_NA':
-                    failures = failures+1
-                    tcfailure = api.failureType(message='Test %s is Not Applicable' % tname, type_ = 'Failure', valueOf_ = "%s" % r[3])
-                    tc.failure = tcfailure
-                elif r[1] == 'ERROR':
-                    failures = failures+1
-                    tcfailure = api.failureType(message='Test %s has failed' % tname, type_ = 'Failure', valueOf_ = "%s" % r[3])
-                    tc.failure = tcfailure
-                else:
-                    # we don't know what this is
-                    errors = errors+1
-                    tcerror = api.errorType(message='Unexpected value for result in test result for test %s' % tname, type_ = 'Logparse', valueOf_ = "result=%s" % r[1])
-                    tc.error = tcerror
-                testcases.append(tc)
-        else:
-            # no results to be found
+            # otherwise, it's a test case
             tc = api.testcaseType()
-            tc.name = 'Logfilter'
-            tc.classname = 'logfilter'
-            tc.time = 0
-            tcerror = api.errorType(message='LOGFILTER: No test cases found while parsing log', type_ = 'Logparse', valueOf_ = 'nothing to show')
-            tc.error = tcerror
+            if '.' in tname:
+                (suite, name) = tname.split('.', 1)
+            else:
+                suite = tname
+                name = tname
+            tc.name = name
+            tc.classname = 'autotest.%s' % suite
+            tc.time = int(r[2])
+            tests = tests + 1
+            if r[1] == 'GOOD':
+            # success, we append the testcase without an error or fail
+                pass
+            # Count NA as fails, disable them if you don't want them
+            elif r[1] == 'TEST_NA':
+                failures = failures+1
+                fid = os.path.join(basedir, tname, 'debug', '%s.DEBUG' % tname)
+                contents = file_load(fid)
+                tcfailure = api.failureType(message='Test %s is Not Applicable: %s' % (tname, r[3]), type_ = 'Failure', valueOf_ = "%s" % contents)
+                tc.failure = tcfailure
+            elif r[1] == 'ERROR':
+                failures = failures+1
+                fid = os.path.join(basedir, tname, 'debug', '%s.DEBUG' % tname)
+                contents = file_load(fid)
+                tcfailure = api.failureType(message='Test %s has failed' % tname, type_ = 'Failure', valueOf_ = "%s" % contents)
+                tc.failure = tcfailure
+            else:
+                # we don't know what this is
+                errors = errors+1
+                tcerror = api.errorType(message='Unexpected value for result in test result for test %s' % tname, type_ = 'Logparse', valueOf_ = "result=%s" % r[1])
+                tc.error = tcerror
             testcases.append(tc)
+    else:
+        # no results to be found
+        tc = api.testcaseType()
+        tc.name = 'Logfilter'
+        tc.classname = 'logfilter'
+        tc.time = 0
+        tcerror = api.errorType(message='LOGFILTER: No test cases found while parsing log', type_ = 'Logparse', valueOf_ = 'nothing to show')
+        tc.error = tcerror
+        testcases.append(tc)
 
-        #if testsuite_result == "GOOD":
-        #    if failures or error:
-        #        raise RuntimeError("LOGFILTER internal error - Overall test results parsed as good, but test errors found")
-        for tc in testcases:
-            ts.add_testcase(tc)
-        ts.failures = failures
-        ts.errors = errors
-        ts.time = testsuite_time
-        ts.tests = tests
-        ts.set_properties(properties)
-        # TODO find and include stdout and stderr
-        testsuites.add_testsuite(ts)
-        testsuites.export(stdout, 0)
+    #if testsuite_result == "GOOD":
+    #    if failures or error:
+    #        raise RuntimeError("LOGFILTER internal error - Overall test results parsed as good, but test errors found")
+    for tc in testcases:
+        ts.add_testcase(tc)
+    ts.failures = failures
+    ts.errors = errors
+    ts.time = testsuite_time
+    ts.tests = tests
+    ts.set_properties(properties)
+    # TODO find and include stdout and stderr
+    testsuites.add_testsuite(ts)
+    testsuites.export(stdout, 0)
 
 if __name__ == "__main__":
-    import glob
+    if len(argv) < 2 or (argv[1] in ('-h', '--help')):
+        print("Usage: %s <autotest-output>" % (argv[0]))
+        exit(0)
 
-    basedir =  glob.glob("../../results/default")
-    resfiles = glob.glob(os.path.join(basedir, "/status*"))
-    if len(argv) > 1:
-        if argv[1] == "-h" or argv[1] == "--help":
-            print "Usage: %s [result files basedir]" % argv[0]
-            exit(0)
-        basedir = os.path.dirname(argv[1])
-        #resfiles = glob.glob(os.path.join(sys.argv[1:], "/status*"))
+    basedir = argv[1]
+    if not os.path.isdir(basedir):
+        print("  ** Error: The specified path (%s) either does not exist or isn't a directory." % (basedir))
+
     main(basedir, argv[1:])
+
+# vi:set ts=4 sw=4 expandtab:
