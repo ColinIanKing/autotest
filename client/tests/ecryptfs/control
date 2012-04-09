@@ -1,0 +1,15 @@
+ME="SHORT"
+AUTHOR = "Brad Figg <brad.figg@canonical.com>"
+DOC = """
+ecryptfs is a set of regression tests developed by Tyler Hicks and Colin King of
+canonical that test the ecryptfs, layered filesystem.
+"""
+NAME = 'hello'
+TEST_CLASS = 'kernel'
+TEST_CATEGORY = 'Functional'
+TEST_TYPE = 'client'
+
+job.run_test('ecryptfs')
+
+
+# vi:set ts=4 sw=4 expandtab:
