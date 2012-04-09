@@ -1,0 +1,14 @@
+ME="SHORT"
+AUTHOR = "Brad Figg <brad.figg@canonical.com>"
+DOC = """
+qrt is the ubuntu quality-regression-tests
+"""
+NAME = 'qrt'
+TEST_CLASS = 'kernel'
+TEST_CATEGORY = 'Functional'
+TEST_TYPE = 'client'
+
+job.run_test('qrt')
+
+
+# vi:set ts=4 sw=4 expandtab:
