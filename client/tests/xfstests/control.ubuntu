@@ -339,7 +339,12 @@ TEST_MATRIX = {
 	    '215' : ['generic'],
 	    '216' : ['xfs'],
 	    '217' : ['xfs'],
-	    '218' : ['xfs', 'ext4'], # fails - e4defrag is in /usr/sbin, not /usr/bin as expected
+	    #'218' : ['xfs', 'ext4'],
+	    # this test seems to be flawed, and fails. The two main reasons are this:
+	    # 1) The filefrag utility reports differing numbers of extents edpending on whether
+	    #    it is invoked with the -v switch http://lists.openwall.net/linux-ext4/2011/05/08/2
+	    # 2) Creating files in an identical way can lead to results with differing numbers of
+	    #    extents in the file
 	    '219' : ['generic'],
 	    '220' : ['xfs'],
 	    '221' : ['generic'],
