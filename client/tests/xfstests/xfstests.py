@@ -84,8 +84,5 @@ class xfstests(test.test):
             logging.debug('Dummy test to setup xfstests')
             return
 
-        if test_number not in self._get_available_tests():
-            raise error.TestError('test file %s not found' % test_number)
-
         logging.debug("Running test: %s" % test_number)
         self._run_sub_test(test_number)
