@@ -183,7 +183,11 @@ TEST_MATRIX = {
 	    '059' : ['xfs'],
 	    '060' : ['xfs'],
 	    '061' : ['xfs'],
-	    '062' : ['generic'], # ext4 needs attr package installed
+	    #'062' : ['generic'],
+	    # Fails for two reasons which result in inconsistent output for comparison
+	    # First is that sometimes a lost+found directory is present in the mnount
+	    # Second is that the getfattr utility doesn't always descend directories
+	    #  in the same order when using the -R switch
 	    '063' : ['xfs'],
 	    '064' : ['xfs'],
 	    '065' : ['xfs'],
