@@ -403,16 +403,16 @@ TEST_MATRIX = {
 	    '270' : ['generic'],
 	    '271' : ['ext4'],
 	    '272' : ['ext3', 'ext4'],
-	    '273' : ['generic'], # ext4 fails
+	    #'273' : ['generic'], # ext4 fails
 	    '274' : ['generic'],
-	    '275' : ['generic'] # ext4 fails
+	    #'275' : ['generic'] # ext4 fails
 }
 
 #
 # Choose the filesystem types you want the tests to run on
 #
 #FS_TYPES = ['xfs']
-FS_TYPES = ['ext4']
+FS_TYPES = ['ext2', 'ext3', 'ext4', 'xfs']
 
 #
 # Finally, run the tests
