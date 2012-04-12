@@ -103,7 +103,7 @@ os.environ['SCRATCH_MNT'] = '/media/xfsmount'
 # os.environ['RMT_IRIXTAPE_DEV'] = ''
 
 # SCRATCH_LOGDEV "device for scratch-fs external log"
-# os.environ['SCRATCH_LOGDEV'] = ''
+os.environ['SCRATCH_LOGDEV'] = '/dev/sdb3'
 
 # SCRATCH_RTDEV "device for scratch-fs realtime data"
 # os.environ['SCRATCH_RTDEV'] = ''
@@ -136,17 +136,17 @@ TEST_MATRIX = {
 	    '012' : ['xfs'],
 	    '013' : ['generic'],
 	    '014' : ['generic'],
-	    '015' : ['generic'],
+	    '015' : ['ext2', 'ext3', 'ext4', 'xfs'], # btrfs FS full behavior is different
 	    '016' : ['xfs'],
 	    '017' : ['xfs'],
 	    '018' : ['xfs'],
 	    '019' : ['xfs'],
 	    '020' : ['xfs', 'udf'],
 	    '021' : ['xfs'],
-	    '022' : ['xfs'],
-	    '023' : ['xfs'],
-	    '024' : ['xfs'],
-	    '025' : ['xfs'],
+	    #'022' : ['xfs'], # requires dump tape
+	    #'023' : ['xfs'], # requires dump tape
+	    #'024' : ['xfs'], # requires dump tape
+	    #'025' : ['xfs'], # requires dump tape
 	    '026' : ['xfs'],
 	    '027' : ['xfs'],
 	    '028' : ['xfs'],
@@ -156,15 +156,15 @@ TEST_MATRIX = {
 	    '032' : ['xfs'],
 	    '033' : ['xfs'],
 	    '034' : ['xfs'],
-	    '035' : ['xfs'],
-	    '036' : ['xfs'],
-	    '037' : ['xfs'],
-	    '038' : ['xfs'],
-	    '039' : ['xfs'],
+	    #'035' : ['xfs'], # requires dump tape
+	    #'036' : ['xfs'], # requires dump tape
+	    #'037' : ['xfs'], # requires dump tape
+	    #'038' : ['xfs'], # requires dump tape
+	    #'039' : ['xfs'], # requires dump tape
 	    #'040' : ['generic'], # only a test on the source tree
 	    '041' : ['xfs'],
 	    '042' : ['xfs'],
-	    '043' : ['xfs'],
+	    #'043' : ['xfs'], # requires dump tape
 	    '044' : ['xfs'],
 	    '045' : ['xfs'],
 	    '046' : ['xfs'],
@@ -176,14 +176,18 @@ TEST_MATRIX = {
 	    '052' : ['xfs'],
 	    '053' : ['generic'],
 	    '054' : ['xfs'],
-	    '055' : ['xfs'],
+	    #'055' : ['xfs'], # requires dump tape
 	    '056' : ['xfs'],
 	    #'057' : ['xfs'], # Test only valid on IRIX
 	    #'058' : ['xfs'], # Test only valid on IRIX
-	    '059' : ['xfs'],
-	    '060' : ['xfs'],
+	    #'059' : ['xfs'], # xfsdump multi-stream support required
+	    #'060' : ['xfs'], # xfsdump multi-stream support required
 	    '061' : ['xfs'],
-	    '062' : ['generic'], # ext4 needs attr package installed
+	    #'062' : ['generic'],
+	    # Fails for two reasons which result in inconsistent output for comparison
+	    # First is that sometimes a lost+found directory is present in the mnount
+	    # Second is that the getfattr utility doesn't always descend directories
+	    #  in the same order when using the -R switch
 	    '063' : ['xfs'],
 	    '064' : ['xfs'],
 	    '065' : ['xfs'],
@@ -192,16 +196,16 @@ TEST_MATRIX = {
 	    '068' : ['xfs'],
 	    '069' : ['generic'],
 	    '070' : ['generic'],
-	    '071' : ['xfs'],
+	    #'071' : ['xfs'], # TODO has errors, could be revisited
 	    '072' : ['xfs'],
 	    '073' : ['xfs'],
 	    '074' : ['generic'],
 	    '075' : ['generic'],
 	    '076' : ['generic'],
-	    '077' : ['generic'],
+	    '077' : ['ext2', 'ext3', 'ext4', 'xfs'], # btrfs FS full behavior is different
 	    '078' : ['xfs'],
 	    '079' : ['generic'],
-	    '080' : ['xfs'],
+	    #'080' : ['xfs'], # this test calls scripts which are psrt of ltp in autotest, not set up
 	    '081' : ['xfs'],
 	    '082' : ['xfs'],
 	    '083' : ['generic'],
@@ -211,11 +215,11 @@ TEST_MATRIX = {
 	    '087' : ['xfs'],
 	    '088' : ['generic'], # ext4 child process failed
 	    '089' : ['generic'],
-	    '090' : ['xfs'],
+	    # '090' : ['xfs'], #  External volumes not in use, skipped this test, realtime volume test
 	    '091' : ['generic'],
 	    '092' : ['xfs'],
 	    #'093' : ['generic'], # Test only valid on IRIX
-	    '094' : ['xfs'],
+	    # '094' : ['xfs'], #  External volumes not in use, skipped this test, realtime volume test
 	    #'095' : ['xfs'], # Test only valid on IRIX
 	    '096' : ['xfs'],
 	    #'097' : ['generic'], # Test only valid on IRIX
@@ -263,42 +267,42 @@ TEST_MATRIX = {
 	    '139' : ['xfs'],
 	    '140' : ['xfs'],
 	    '141' : ['generic'],
-	    '142' : ['xfs'],
-	    '143' : ['xfs'],
-	    '144' : ['xfs'],
-	    '145' : ['xfs'],
-	    '146' : ['xfs'],
-	    '147' : ['xfs'],
-	    '148' : ['xfs'],
-	    '149' : ['xfs'],
-	    '150' : ['xfs'],
-	    '151' : ['xfs'],
-	    '152' : ['xfs'],
-	    '153' : ['xfs'],
-	    '154' : ['xfs'],
-	    '155' : ['xfs'],
-	    '156' : ['xfs'],
-	    '157' : ['xfs'],
-	    '158' : ['xfs'],
-	    '159' : ['xfs'],
-	    '160' : ['xfs'],
-	    '161' : ['xfs'],
-	    '162' : ['xfs'],
-	    '163' : ['xfs'],
+	    #'142' : ['xfs'], # requires unsupported DMAPI
+	    #'143' : ['xfs'], # requires unsupported DMAPI
+	    #'144' : ['xfs'], # requires unsupported DMAPI
+	    #'145' : ['xfs'], # requires unsupported DMAPI
+	    #'146' : ['xfs'], # requires unsupported DMAPI
+	    #'147' : ['xfs'], # requires unsupported DMAPI
+	    #'148' : ['xfs'], # uses a utility tthat was IRIX only and no longer exists
+	    #'149' : ['xfs'], # uses a utility tthat was IRIX only and no longer exists
+	    #'150' : ['xfs'], # requires unsupported DMAPI
+	    #'151' : ['xfs'], # requires unsupported DMAPI
+	    #'152' : ['xfs'], # requires unsupported DMAPI
+	    #'153' : ['xfs'], # requires unsupported DMAPI
+	    #'154' : ['xfs'], # requires unsupported DMAPI
+	    #'155' : ['xfs'], # requires unsupported DMAPI
+	    #'156' : ['xfs'], # requires unsupported DMAPI
+	    #'157' : ['xfs'], # requires unsupported DMAPI
+	    #'158' : ['xfs'], # requires unsupported DMAPI
+	    #'159' : ['xfs'], # requires unsupported DMAPI
+	    #'160' : ['xfs'], # requires unsupported DMAPI
+	    #'161' : ['xfs'], # requires unsupported DMAPI
+	    #'162' : ['xfs'], # requires unsupported DMAPI
+	    #'163' : ['xfs'], # requires unsupported DMAPI
 	    '164' : ['xfs'],
-	    '165' : ['xfs'],
+	    #'165' : ['xfs'], # requires unsupported DMAPI
 	    '166' : ['xfs'],
 	    '167' : ['xfs'],
-	    '168' : ['xfs'],
+	    #'168' : ['xfs'], # requires unsupported DMAPI
 	    '169' : ['generic'],
 	    '170' : ['xfs'],
 	    '171' : ['xfs'],
 	    '172' : ['xfs'],
 	    '173' : ['xfs'],
 	    '174' : ['xfs'],
-	    '175' : ['xfs'],
-	    '176' : ['xfs'],
-	    '177' : ['xfs'],
+	    #'175' : ['xfs'], # requires unsupported DMAPI
+	    #'176' : ['xfs'], # requires unsupported DMAPI
+	    #'177' : ['xfs'], # requires unsupported DMAPI
 	    '178' : ['xfs'],
 	    '179' : ['xfs'],
 	    '180' : ['xfs'],
@@ -306,19 +310,19 @@ TEST_MATRIX = {
 	    '182' : ['xfs'],
 	    '183' : ['xfs'],
 	    '184' : ['generic'],
-	    '185' : ['xfs'],
+	    #'185' : ['xfs'], # requires unsupported DMAPI
 	    '186' : ['xfs'],
 	    '187' : ['xfs'],
 	    '188' : ['xfs'],
 	    '189' : ['xfs'],
 	    '190' : ['xfs'],
-	    '191' : ['xfs'],
+	    #'191' : ['xfs'], # no mkfs support for NFS v4 ACLs
 	    '192' : ['generic'],
 	    '193' : ['generic'],
 	    '194' : ['xfs'],
 	    '195' : ['xfs'],
 	    '196' : ['xfs'],
-	    '197' : ['xfs'],
+	    #'197' : ['xfs'],# This test is only valid on 32 bit machines
 	    '198' : ['generic'],
 	    '199' : ['xfs'],
 	    '200' : ['xfs'],
@@ -334,8 +338,8 @@ TEST_MATRIX = {
 	    '210' : ['generic'],
 	    '211' : ['generic'],
 	    '212' : ['generic'],
-	    '213' : ['generic'],
-	    '214' : ['generic'],
+	    '213' : ['ext4', 'xfs'],
+	    '214' : ['ext4', 'xfs'],
 	    '215' : ['generic'],
 	    '216' : ['xfs'],
 	    '217' : ['xfs'],
@@ -345,23 +349,23 @@ TEST_MATRIX = {
 	    #    it is invoked with the -v switch http://lists.openwall.net/linux-ext4/2011/05/08/2
 	    # 2) Creating files in an identical way can lead to results with differing numbers of
 	    #    extents in the file
-	    '219' : ['generic'],
+	    '219' : ['ext2', 'ext3', 'ext4', 'xfs'], # btrfs doesn't support quotas
 	    '220' : ['xfs'],
 	    '221' : ['generic'],
 	    '222' : ['xfs'],
-	    '223' : ['generic'],
+	    '223' : ['ext4', 'xfs'],
 	    '224' : ['generic'],
 	    '225' : ['generic'],
 	    '226' : ['generic'],
 	    '227' : ['xfs'],
-	    '228' : ['generic'],
+	    '228' : ['ext4', 'xfs'],
 	    '229' : ['xfs'],
-	    '230' : ['generic'],
-	    '231' : ['generic'],
-	    '232' : ['generic'],
-	    '233' : ['generic'],
-	    '234' : ['generic'],
-	    '235' : ['generic'],
+	    '230' : ['ext2', 'ext3', 'ext4', 'xfs'], # btrfs fails
+	    '231' : ['ext2', 'ext3', 'ext4', 'xfs'], # btrfs fails
+	    '232' : ['ext2', 'ext3', 'ext4', 'xfs'], # btrfs fails
+	    '233' : ['ext2', 'ext3', 'ext4', 'xfs'], # btrfs fails
+	    '234' : ['ext2', 'ext3', 'ext4', 'xfs'], # btrfs fails
+	    '235' : ['ext2', 'ext3', 'ext4', 'xfs'], # btrfs doesn't support quotas
 	    '236' : ['generic'],
 	    '237' : ['generic'],
 	    '238' : ['xfs'],
@@ -378,11 +382,11 @@ TEST_MATRIX = {
 	    '249' : ['generic'],
 	    '250' : ['xfs'],
 	    '251' : ['xfs'], # was generic but ext4 - FSTRIM is not supported
-	    '252' : ['xfs'],
-	    '253' : ['xfs'],
+	    #'252' : ['xfs'], # xfs_io fiemap support is missing
+	    #'253' : ['xfs'], # xfs_io fiemap support is missing
 	    '254' : ['btrfs'],
 	    '255' : ['xfs'], # test case is marked generic, but xfs_io fiemap support is required
-	    '256' : ['generic'],
+	    '256' : ['ext4', 'xfs'],
 	    '257' : ['generic'],
 	    '258' : ['generic'],
 	    '259' : ['xfs'],
@@ -391,31 +395,23 @@ TEST_MATRIX = {
 	    '262' : ['xfs'],
 	    '263' : ['generic'],
 	    '264' : ['btrfs'],
-	    '265' : ['btrfs'],
-	    '266' : ['xfs'],
-	    '267' : ['xfs'],
-	    '268' : ['xfs'],
+	    '265' :  ['ext2', 'ext3', 'ext4', 'xfs'], # no btrfs
+	    #'266' : ['xfs'], # requires xfsdump -D
+	    #'267' : ['xfs'], # requires dump tape
+	    #'268' : ['xfs'], # requires dump tape
 	    '269' : ['generic'],
-	    '270' : ['generic'],
+	    '270' : ['ext3', 'ext4', 'xfs'],
 	    '271' : ['ext4'],
 	    '272' : ['ext3', 'ext4'],
-	    '273' : ['generic'], # ext4 fails
-	    '274' : ['generic'],
-	    '275' : ['generic'] # ext4 fails
-}
-
-TEST_MATRIX = {
-	    '000' : ['generic'],
-	    '062' : ['generic'],
-	    '273' : ['generic'], # ext4 fails
-	    '275' : ['generic'] # ext4 fails
+	    #'273' : ['generic'], # ext4 fails
+	    '274' : ['ext4', 'xfs'],
+	    #'275' : ['generic'] # ext4 fails
 }
 
 #
 # Choose the filesystem types you want the tests to run on
 #
-#FS_TYPES = ['xfs']
-FS_TYPES = ['ext4']
+FS_TYPES = ['xfs']
 
 #
 # Finally, run the tests
@@ -428,6 +424,7 @@ for fs_type in FS_TYPES:
     	if ('generic' in TEST_MATRIX[test]) or (fs_type in TEST_MATRIX[test]):
            tag = "%s.%s" % (test, fs_type)
            result = job.run_test_detail('xfstests', test_number=test, tag=tag)
+    p.unmount()
 
 # It is good practice to unmount the partition created
 p.unmount()
