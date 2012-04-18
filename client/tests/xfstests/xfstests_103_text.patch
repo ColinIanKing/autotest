@@ -1,0 +1,11 @@
+--- 103.out.orig	2012-04-18 10:54:27.252260325 -0500
++++ 103.out	2012-04-18 10:54:56.540259878 -0500
+@@ -4,7 +4,7 @@
+ *** testing nosymlinks directories
+ *** setting nosymlinks bit
+ --n-- SCRATCH_MNT/nosymlink
+-ln: creating symbolic link `SCRATCH_MNT/nosymlink/target' to `SCRATCH_MNT/nosymlink/source': Operation not permitted
++ln: failed to create symbolic link `SCRATCH_MNT/nosymlink/target' to `SCRATCH_MNT/nosymlink/source': Operation not permitted
+ *** 1st listing...
+ SCRATCH_MNT
+ SCRATCH_MNT/nosymlink

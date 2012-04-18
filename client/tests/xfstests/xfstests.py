@@ -70,6 +70,7 @@ class xfstests(test.test):
         tarball = utils.unmap_url(self.bindir, tarball, self.tmpdir)
         utils.extract_tarball_to_dir(tarball, self.srcdir)
         os.chdir(self.srcdir)
+        utils.system('patch < ../xfstests_103_text.patch')
         utils.system('patch < ../xfstests_228_text.patch')
         utils.system('patch < ../xfstests_change_e4defrag_location.patch')
         utils.make()
