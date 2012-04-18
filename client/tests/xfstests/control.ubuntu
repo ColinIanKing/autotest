@@ -137,9 +137,9 @@ TEST_MATRIX = {
 	    '013' : ['generic'],
 	    '014' : ['generic'],
 	    '015' : ['ext2', 'ext3', 'ext4', 'xfs'], # btrfs FS full behavior is different
-	    '016' : ['xfs'],
+	    #'016' : ['xfs'], # disabled because of http://www.digipedia.pl/usenet/thread/11980/7565/ it seems to rely on the same behavior
 	    '017' : ['xfs'],
-	    '018' : ['xfs'],
+	    # '018' : ['xfs'], # disabled because of http://www.digipedia.pl/usenet/thread/11980/7565/
 	    '019' : ['xfs'],
 	    '020' : ['xfs', 'udf'],
 	    '021' : ['xfs'],
@@ -165,7 +165,7 @@ TEST_MATRIX = {
 	    '041' : ['xfs'],
 	    '042' : ['xfs'],
 	    #'043' : ['xfs'], # requires dump tape
-	    '044' : ['xfs'],
+	    #'044' : ['xfs'],
 	    '045' : ['xfs'],
 	    '046' : ['xfs'],
 	    '047' : ['xfs'],
@@ -198,7 +198,7 @@ TEST_MATRIX = {
 	    '070' : ['generic'],
 	    #'071' : ['xfs'], # TODO has errors, could be revisited
 	    '072' : ['xfs'],
-	    '073' : ['xfs'],
+	    #'073' : ['xfs'],
 	    '074' : ['generic'],
 	    '075' : ['generic'],
 	    '076' : ['generic'],
@@ -206,8 +206,8 @@ TEST_MATRIX = {
 	    '078' : ['xfs'],
 	    '079' : ['generic'],
 	    #'080' : ['xfs'], # this test calls scripts which are psrt of ltp in autotest, not set up
-	    '081' : ['xfs'],
-	    '082' : ['xfs'],
+	    #'081' : ['xfs'], # disabled because of http://www.digipedia.pl/usenet/thread/11980/7565/
+	    #'082' : ['xfs'], # disabled because of http://www.digipedia.pl/usenet/thread/11980/7565/
 	    '083' : ['generic'],
 	    '084' : ['xfs'],
 	    '085' : ['xfs'],
@@ -231,8 +231,8 @@ TEST_MATRIX = {
 	    '103' : ['xfs'],
 	    '104' : ['xfs'],
 	    '105' : ['generic'],
-	    '106' : ['xfs'],
-	    '107' : ['xfs'],
+	    #'106' : ['xfs'],
+	    #'107' : ['xfs'],
 	    '108' : ['xfs'],
 	    '109' : ['xfs'],
 	    '110' : ['xfs'],
@@ -247,7 +247,7 @@ TEST_MATRIX = {
 	    '119' : ['xfs'],
 	    '120' : ['generic'],
 	    '121' : ['xfs'],
-	    '122' : ['xfs'],
+	    #'122' : ['xfs'],
 	    '123' : ['generic'],
 	    '124' : ['generic'],
 	    '125' : ['generic'],
@@ -261,7 +261,7 @@ TEST_MATRIX = {
 	    '133' : ['generic'],
 	    '134' : ['xfs'],
 	    '135' : ['generic'],
-	    '136' : ['xfs'],
+	    #'136' : ['xfs'],
 	    '137' : ['xfs'],
 	    '138' : ['xfs'],
 	    '139' : ['xfs'],
@@ -349,7 +349,7 @@ TEST_MATRIX = {
 	    #    it is invoked with the -v switch http://lists.openwall.net/linux-ext4/2011/05/08/2
 	    # 2) Creating files in an identical way can lead to results with differing numbers of
 	    #    extents in the file
-	    '219' : ['ext2', 'ext3', 'ext4', 'xfs'], # btrfs doesn't support quotas
+	    '219' : ['ext2', 'ext3', 'ext4'], # btrfs doesn't support quotas
 	    '220' : ['xfs'],
 	    '221' : ['generic'],
 	    '222' : ['xfs'],
@@ -359,13 +359,13 @@ TEST_MATRIX = {
 	    '226' : ['generic'],
 	    '227' : ['xfs'],
 	    '228' : ['ext4', 'xfs'],
-	    '229' : ['xfs'],
+	    #'229' : ['xfs'],
 	    '230' : ['ext2', 'ext3', 'ext4', 'xfs'], # btrfs fails
 	    '231' : ['ext2', 'ext3', 'ext4', 'xfs'], # btrfs fails
 	    '232' : ['ext2', 'ext3', 'ext4', 'xfs'], # btrfs fails
 	    '233' : ['ext2', 'ext3', 'ext4', 'xfs'], # btrfs fails
 	    '234' : ['ext2', 'ext3', 'ext4', 'xfs'], # btrfs fails
-	    '235' : ['ext2', 'ext3', 'ext4', 'xfs'], # btrfs doesn't support quotas
+	    '235' : ['ext2', 'ext3', 'ext4'], # btrfs doesn't support quotas
 	    '236' : ['generic'],
 	    '237' : ['generic'],
 	    '238' : ['xfs'],
@@ -380,7 +380,7 @@ TEST_MATRIX = {
 	    '247' : ['generic'],
 	    '248' : ['generic'],
 	    '249' : ['generic'],
-	    '250' : ['xfs'],
+	    #'250' : ['xfs'],
 	    '251' : ['xfs'], # was generic but ext4 - FSTRIM is not supported
 	    #'252' : ['xfs'], # xfs_io fiemap support is missing
 	    #'253' : ['xfs'], # xfs_io fiemap support is missing
@@ -390,19 +390,19 @@ TEST_MATRIX = {
 	    '257' : ['generic'],
 	    '258' : ['generic'],
 	    '259' : ['xfs'],
-	    '260' : ['xfs'], # was generic but ext4 - FSTRIM is not supported
+	    #'260' : ['xfs'], # was generic but ext4 - FSTRIM is not supported
 	    '261' : ['xfs'],
 	    '262' : ['xfs'],
 	    '263' : ['generic'],
 	    '264' : ['btrfs'],
-	    '265' :  ['ext2', 'ext3', 'ext4', 'xfs'], # no btrfs
+	    '265' :  ['ext2', 'ext3', 'ext4'],
 	    #'266' : ['xfs'], # requires xfsdump -D
 	    #'267' : ['xfs'], # requires dump tape
 	    #'268' : ['xfs'], # requires dump tape
 	    '269' : ['generic'],
 	    '270' : ['ext3', 'ext4', 'xfs'],
 	    '271' : ['ext4'],
-	    '272' : ['ext3', 'ext4'],
+	    '272' : ['ext4'],
 	    #'273' : ['generic'], # ext4 fails
 	    '274' : ['ext4', 'xfs'],
 	    #'275' : ['generic'] # ext4 fails
