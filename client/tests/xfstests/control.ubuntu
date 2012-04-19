@@ -395,7 +395,7 @@ TEST_MATRIX = {
 	    '262' : ['xfs'],
 	    '263' : ['generic'],
 	    '264' : ['btrfs'],
-	    '265' :  ['ext2', 'ext3', 'ext4'],
+	    '265' :  ['btrfs'],
 	    #'266' : ['xfs'], # requires xfsdump -D
 	    #'267' : ['xfs'], # requires dump tape
 	    #'268' : ['xfs'], # requires dump tape
