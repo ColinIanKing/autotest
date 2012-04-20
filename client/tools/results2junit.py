@@ -161,13 +161,13 @@ def main(basedir, resfiles):
                 failures = failures+1
                 fid = os.path.join(basedir, tname, 'debug', '%s.DEBUG' % tname)
                 contents = file_load(fid)
-                tcfailure = api.failureType(message='Test %s is Not Applicable: %s' % (tname, r[3]), type_ = 'Failure', valueOf_ = "%s" % contents)
+                tcfailure = api.failureType(message='Test %s is Not Applicable: %s' % (tname, r[3]), type_ = 'Failure', valueOf_ = "\n<![CDATA[\n%s\n]]>\n" % contents)
                 tc.failure = tcfailure
             elif r[1] == 'ERROR':
                 failures = failures+1
                 fid = os.path.join(basedir, tname, 'debug', '%s.DEBUG' % tname)
                 contents = file_load(fid)
-                tcfailure = api.failureType(message='Test %s has failed' % tname, type_ = 'Failure', valueOf_ = "%s" % contents)
+                tcfailure = api.failureType(message='Test %s has failed' % tname, type_ = 'Failure', valueOf_ = "\n<![CDATA[\n%s\n]]>\n" % contents)
                 tc.failure = tcfailure
             else:
                 # we don't know what this is
