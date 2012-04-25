@@ -18,7 +18,7 @@ class qrt(test.test):
         cmd = 'python ./test-kernel-hardening.py -v'
         self.results = utils.system_output(cmd, retain_output=True)
 
-        cmd = 'test-kernel-aslr-collisions.py -v'
+        cmd = 'python ./test-kernel-aslr-collisions.py -v'
         self.results = utils.system_output(cmd, retain_output=True)
 
         cmd = 'python ./test-kernel-panic.py -v'
