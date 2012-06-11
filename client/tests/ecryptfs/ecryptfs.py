@@ -12,26 +12,20 @@ class ecryptfs(test.test):
         utils.extract_tarball_to_dir(tarball, self.srcdir)
 
         os.chdir(self.srcdir)
+        utils.system('patch -p1 < ../run_one.patch')
+        utils.system('chmod +x tests/run_one.sh')
         utils.system('autoreconf -ivf')
         utils.system('intltoolize -c -f')
         utils.configure('--enable-tests --disable-pywrap')
         utils.make()
 
-    def run_once(self, args = '', user = 'root'):
-        print("run_once: Enter")
-
-        for dir in ['/mnt/upper', '/mnt/lower', '/mnt/image']:
-            if not os.path.isdir(dir):
-                os.makedirs(dir)
-
-        FS_TYPES = ['ext2', 'ext3', 'ext4', 'xfs', 'btrfs']
-
+    def run_once(self, test_name, fs_type):
         os.chdir(self.srcdir)
-        for fs_type in FS_TYPES:
-            for test_type in ['destructive', 'safe']:
-                cmd = 'tests/run_tests.sh -K -c %s -b 1000000 -D /mnt/image -l /mnt/lower -u /mnt/upper -f %s' % (test_type, fs_type)
-                self.results = utils.system_output(cmd, retain_output=True)
 
-        print("run_once: Leave")
+        if test_name == 'setup':
+            return
+
+        cmd = 'tests/run_one.sh -K -t %s -b 1000000 -D /mnt/image -l /mnt/lower -u /mnt/upper -f %s' % (test_name, fs_type)
+        self.results = utils.system_output(cmd, retain_output=True)
 
 # vi:set ts=4 sw=4 expandtab:
