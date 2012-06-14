@@ -8,7 +8,15 @@ TEST_CLASS = 'kernel'
 TEST_CATEGORY = 'Functional'
 TEST_TYPE = 'client'
 
-job.run_test('qrt')
+tests = [
+    'setup',
+    'test-kernel-hardening.py',
+    'test-kernel-aslr-collisions.py',
+    'test-kernel-panic.py',
+    'test-kernel-security.py'
+]
 
+for test in tests:
+    result = job.run_test_detail('qrt', test_name=test, tag=test)
 
-# vi:set ts=4 sw=4 expandtab:
+# vi:set ts=4 sw=4 expandtab syntax=python:

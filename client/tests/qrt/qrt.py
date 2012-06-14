@@ -11,20 +11,14 @@ class qrt(test.test):
         tarball = utils.unmap_url(self.bindir, tarball, self.tmpdir)
         utils.extract_tarball_to_dir(tarball, self.srcdir)
 
-    def run_once(self, args = '', user = 'root'):
+    def run_once(self, test_name):
         scripts = os.path.join(self.srcdir, 'scripts')
         os.chdir(scripts)
 
-        cmd = 'python ./test-kernel-hardening.py -v'
-        self.results = utils.system_output(cmd, retain_output=True)
+        if test_name == 'setup':
+            return
 
-        cmd = 'python ./test-kernel-aslr-collisions.py -v'
-        self.results = utils.system_output(cmd, retain_output=True)
-
-        cmd = 'python ./test-kernel-panic.py -v'
-        self.results = utils.system_output(cmd, retain_output=True)
-
-        cmd = 'python ./test-kernel-security.py -v'
+        cmd = 'python ./%s -v' % test_name
         self.results = utils.system_output(cmd, retain_output=True)
 
 
