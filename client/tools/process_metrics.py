@@ -5,39 +5,50 @@ so that the jenkins measurement-plots plugin can parse them.
 
 Copyright Canonical, Inc 2012
 """
-from sys                             import argv, exit
+from sys                             import argv, stdout, stderr, exit
 from getopt                          import getopt, GetoptError
 import os
 import json
 from datetime                        import datetime, date
 
-def main(path, testname, attrs):
+def main(path):
 
     # under here is a "results" directory
-    # The files we care about are:
-    # results/default/dbench/keyval
-    # results/default/dbench/results/keyval
+    # The file we care about are:
+    # results/default/testname/results/keyval
 
-    meta = {}
-    meta.update(attrs)
     metrics = {}
     results = {}
 
-    metaFileList = []
-    metaFileList.append(os.path.join(path, "results/default/", testname, "keyval"))
     metricFileList = []
-    metricFileList.append(os.path.join(path, "results/default/", testname, "results/keyval"))
+    try:
+        jobname = os.environ["JOB_NAME"]
+    except KeyError:
+        raise KeyError("Env variable JOB_NAME is not set, are you running this inside a jenkins job?")
 
+    if path is None:
+        path = "autotest/client"
+
+    # grab the metadata
+        file_name = "test-attributes.json"
+    if os.path.exists(file_name):
+        with open(file_name, 'r') as f:
+            meta = json.load(f)
+    else:
+        meta = {}
+        print >> stderr, "ERROR: file <%s> not found, no metadata included in metrics" % file_name
+
+    # Save a processing timestamp
     meta['results_processed'] = datetime.utcnow().strftime("%A, %d. %B %Y %H:%M UTC")
-    meta['testname'] = testname
-    for filenm in metaFileList:
-        fd = open(filenm, "r")
-        lines = fd.readlines()
-        for line in lines:
-            p =  line.strip().split('=')
-            if len(p) != 2:
-                continue
-            meta[p[0]] = p[1]
+
+    # Gather results
+    resultsdir = os.path.join(path, "results/default")
+    # Now iterate over each subdirectory in the resultsdir, looking for keyval file
+    subtestresults = os.listdir(resultsdir)
+    for subtest in subtestresults:
+        keyvalpath = os.path.join(subtest, "results/keyval")
+        if os.path.exists(keyvalpath):
+            metricFileList.append(keyvalpath)
 
     for filenm in metricFileList:
         fd = open(filenm, "r")
@@ -61,60 +72,31 @@ def usage():
     print "        json data.                                                                           \n",
     print "                                                                                             \n",
     print "    Usage:                                                                                   \n",
-    print "        %s --testname <testname> [options] <path-to-results>                                 \n" % argv[0],
+    print "        %s                                                                                   \n" % argv[0],
     print "                                                                                             \n",
     print "    Options:                                                                                 \n",
     print "        --help           Prints this text.                                                   \n",
     print "                                                                                             \n",
-    print "        --attrs=[list of key=value pairs]           A comma delimited list of attributes.    \n",
+    print "        --path=<results_path>            The path to the results files                       \n"
+    print "                                         (defaults to workspace/[jobname]/autotest/client).    \n",
     print "                                                                                             \n",
-    print "        --testname=<test_name>           The name of the test that was run (required).       \n",
-    print "                                                                                             \n",
-    print "        --path=<results_path>            The path to the results files (required).           \n",
-    print "                                                                                             \n",
-    print "    Examples:                                                                                \n",
-    print "        %s --testname=dbench --path=/var/lib/jenkins/jobs/dbench-test/workspace/dbench       \n" % argv[0],
 
 if __name__ == "__main__":
     # process command line
+    optsShort = ''
+    optsLong  = ['help', 'path=']
+    opts, args = getopt(argv[1:], optsShort, optsLong)
+    path = None
+    attrs = {}
+
     try:
-        optsShort = ''
-        optsLong  = ['help', 'testname=', 'attrs=', 'path=']
-        opts, args = getopt(argv[1:], optsShort, optsLong)
-        testname = None
-        path = None
-        attrs = {}
-
-        # set up some attributes we know we want form the environment, if present
-        jenkins_attrs = ['BUILD_NUMBER','BUILD_ID','JOB_NAME','BUILD_TAG','EXECUTOR_NUMBER','NODE_NAME','NODE_LABELS']
-        for aname in jenkins_attrs:
-            if aname in os.environ:
-                attrs[aname] = os.environ[aname]
-            else:
-                attrs[aname] = ''
-
         for opt, val in opts:
             if (opt == '--help'):
                 usage()
-            elif opt in ('--testname'):
-                testname = val.strip()
-            elif opt in ('--attrs'):
-                for attr in val.split(","):
-                    parts = attr.split("=")
-                    if len(parts) != 2:
-                        print "Error in formatting of attributes"
-                        usage()
-                        exit()
-                    attrs[parts[0]] = parts[1]
-                    
             elif opt in ('--path'):
                 path = val.strip()
 
     except GetoptError:
         usage()
 
-    if testname == None or path == None:
-        usage()
-        exit()
-
-    main(path, testname, attrs)
+    main(path)
