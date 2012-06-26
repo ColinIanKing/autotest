@@ -46,7 +46,7 @@ def main(path):
     # Now iterate over each subdirectory in the resultsdir, looking for keyval file
     subtestresults = os.listdir(resultsdir)
     for subtest in subtestresults:
-        keyvalpath = os.path.join(subtest, "results/keyval")
+        keyvalpath = os.path.join(resultsdir, subtest, "results/keyval")
         if os.path.exists(keyvalpath):
             metricFileList.append(keyvalpath)
 
