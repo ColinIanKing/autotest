@@ -411,7 +411,8 @@ TEST_MATRIX = {
 #
 # Choose the filesystem types you want the tests to run on
 #
-FS_TYPES = ['ext2', 'ext3', 'ext4', 'xfs', 'btrfs']
+#FS_TYPES = ['ext2', 'ext3', 'ext4', 'xfs', 'btrfs']
+FS_TYPES = ['ext4']
 
 #
 # Finally, run the tests
