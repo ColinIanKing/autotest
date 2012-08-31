@@ -1,0 +1,23 @@
+ME="SHORT"
+AUTHOR = "Colin Ian King <colin.king@canonical.com>"
+DOC = """
+power_consumption is the ubuntu power consumption test suite
+"""
+NAME = 'power_consumption'
+TEST_CLASS = 'kernel'
+TEST_CATEGORY = 'Functional'
+TEST_TYPE = 'client'
+
+result = job.run_test_detail('power_consumption', test_name='setup', tag='setup')
+
+tests = [
+    'test-idle.sh',
+    'test-cpu.sh',
+    'test-vm.sh',
+    'test-iosync.sh'
+]
+
+for test in tests:
+    result = job.run_test_detail('power_consumption', test_name=test, tag=test)
+
+# vi:set ts=4 sw=4 expandtab syntax=python:
