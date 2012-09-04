@@ -13,7 +13,8 @@ tests = [
     'test-kernel-hardening.py',
     'test-kernel-aslr-collisions.py',
     'test-kernel-panic.py',
-    'test-kernel-security.py'
+    'test-kernel-security.py',
+    'test-apparmor.py'
 ]
 
 for test in tests:
