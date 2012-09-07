@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-#  Simple power measurement test, stress CPUs
+#  Simple power measurement test, stress CPUs, I/O and VM
 #
 
 . ${SCRIPT_PATH}/test-common.sh
@@ -8,7 +8,7 @@
 #
 # Kick off stress test
 #
-stress -t $DURATION --cpu $CPUS > /dev/null 2>&1 &
+stress -t $DURATION --cpu $CPUS --io $CPUS --vm $CPUS > /dev/null 2>&1 &
 pid=$!
 
 #
@@ -28,4 +28,4 @@ wait $pid
 #
 # Compute stats, scale by 1000 because we are using a power clamp
 #
-$STATSTOOL -S -T -X 1000 -a $SAMPLES_LOG | grep metric: | sed 's/metric:/metric:stress_CPU_/'
+$STATSTOOL -S -T -X 1000 -a $SAMPLES_LOG | grep metric: | sed 's/metric:/metric:stress_all_/'

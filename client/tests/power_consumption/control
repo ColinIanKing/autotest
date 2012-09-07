@@ -14,7 +14,9 @@ tests = [
     'test-idle.sh',
     'test-cpu.sh',
     'test-vm.sh',
-    'test-iosync.sh'
+    'test-iosync.sh',
+    'test-stress.sh',
+    'test-dd.sh'
 ]
 
 for test in tests:

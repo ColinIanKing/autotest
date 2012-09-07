@@ -1,6 +1,8 @@
 import os
 from autotest_lib.client.bin import test, utils
 
+import sys
+
 class power_consumption(test.test):
     version = 1
 
@@ -30,11 +32,23 @@ class power_consumption(test.test):
 	os.putenv('METER_PORT', '3490')
 	os.putenv('METER_TAGPORT', '9999')
 	os.putenv('LOGMETER', os.path.join(self.srcdir, 'logmeter'))
+	os.putenv('SENDTAG', os.path.join(self.srcdir, 'sendtag'))
 	os.putenv('STATSTOOL', os.path.join(os.path.join(self.srcdir, 'statstool'), 'statstool'))
 	os.putenv('SAMPLES_LOG', os.path.join(os.path.join(self.tmpdir, 'samples.log')))
 	os.putenv('STATISTICS_LOG', os.path.join(os.path.join(self.tmpdir, 'statistics.log')))
+	os.putenv('SAMPLES', '60')
+	os.putenv('SAMPLE_INTERVAL', '5')
+	os.putenv('SETTLE_DURATION', '30')
+	os.putenv('SCRIPT_PATH', os.path.join(self.bindir, 'power_consumption_tests'))
 
 	script = os.path.join(os.path.join(self.bindir, 'power_consumption_tests'), test_name)
-        self.results = utils.system_output(script, retain_output=True)
+        output = utils.system_output(script, retain_output=True)
+
+        keylist = {}
+        for line in output.splitlines():
+            split = line.split(':')
+            keylist[split[1]] = split[2]
+
+        self.write_perf_keyval(keylist)
 
 # vi:set ts=4 sw=4 expandtab:
