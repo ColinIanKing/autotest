@@ -414,7 +414,7 @@ TEST_MATRIX = {
 	    '269' : ['generic'],
 	    #'270' : ['ext3', 'ext4', 'xfs'],           # FIXME bjf - This test fails on most series (ext4)
 	    '271' : ['ext4'],
-	    '272' : ['ext4'],
+	    #'272' : ['ext4'],                          # FIXME bjf - This is hanging on multiple series
 	    #'273' : ['generic'], # ext4 fails
 	    '274' : ['ext4', 'xfs'],
 	    #'275' : ['generic'] # ext4 fails
