@@ -19,6 +19,10 @@ BLACKLIST = [
     'inode-race-stat.sh', # Known to not pass on Lucid, Natty, and Oneiric
 ]
 
+FS_BLACKLIST = {
+    'xfs' : ['extend-file-random.sh'],
+}
+
 result = job.run_test_detail('ecryptfs', test_name='setup', fs_type=None, tag='setup.all')
 
 for dir in ['/mnt/upper', '/mnt/lower', '/mnt/image']:
@@ -45,8 +49,9 @@ if os.path.exists(tests_rc):
 
     for fs_type in FS_TYPES:
         for test in tests:
-            tag = "%s.%s" % (test, fs_type)
-            result = job.run_test_detail('ecryptfs', test_name=test, fs_type=fs_type, tag=tag, timeout=60*60)
+            if test not in FS_BLACKLIST[fs_type]:
+                tag = "%s.%s" % (test, fs_type)
+                result = job.run_test_detail('ecryptfs', test_name=test, fs_type=fs_type, tag=tag, timeout=60*60)
 
 
 # vi:set ts=4 sw=4 expandtab:
