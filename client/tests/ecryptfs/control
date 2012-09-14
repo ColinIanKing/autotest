@@ -18,7 +18,6 @@ BLACKLIST = [
 ]
 
 FS_BLACKLIST = {
-    'xfs' : ['extend-file-random.sh'],
 }
 
 result = job.run_test_detail('ecryptfs', test_name='setup', fs_type=None, tag='setup.all')
