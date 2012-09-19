@@ -28,9 +28,8 @@ class power_consumption(test.test):
 	#
 	#  Meter and tools configuration
 	#
-	os.putenv('METER_ADDR', '192.168.0.2')
-	os.putenv('METER_PORT', '3490')
-	os.putenv('METER_TAGPORT', '9999')
+	# Env variables METER_ADDR, METER_PORT, and METER_TAGPORT must be passed in to the test
+        # See the control file
 	os.putenv('LOGMETER', os.path.join(self.srcdir, 'logmeter'))
 	os.putenv('SENDTAG', os.path.join(self.srcdir, 'sendtag'))
 	os.putenv('STATSTOOL', os.path.join(os.path.join(self.srcdir, 'statstool'), 'statstool'))
