@@ -47,9 +47,13 @@ class xfstests(test.test):
             raise error.TestError('Could not assert test success or failure, '
                                   'assuming failure. Please check debug logs')
 
+    def _run_suite(self):
+        os.chdir(self.srcdir)
+        output = utils.system_output('./check -g auto -x dangerous',
+                                     ignore_status=True,
+                                     retain_output=True)
 
     def setup(self, tarball = 'xfstests.tar.bz2'):
-        #
         # Anticipate failures due to missing devel tools, libraries, headers
         # and xfs commands
         #
@@ -79,12 +83,23 @@ class xfstests(test.test):
         logging.debug("Available tests in srcdir: %s" %
                       ", ".join(self._get_available_tests()))
 
+    def create_partitions(self, filesystem):
+        print('++++++++    /bin/bash ../create-test-partitions %s %s' % (os.environ['XFSTESTS_TEST_DRIVE'], filesystem))
+        return utils.system('/bin/bash ../create-test-partitions %s %s' % (os.environ['XFSTESTS_TEST_DRIVE'], filesystem))
 
-    def run_once(self, test_number):
+    def unmount_partitions(self):
+        for mnt_point in [ os.environ['SCRATCH_MNT'], os.environ['TEST_DIR'] ]:
+            utils.system('umount %s' % mnt_point, ignore_status=True)
+
+    def run_once(self, filesystem='ext4', test_number='000', single=False):
         os.chdir(self.srcdir)
-        if test_number == '000':
-            logging.debug('Dummy test to setup xfstests')
-            return
-
-        logging.debug("Running test: %s" % test_number)
-        self._run_sub_test(test_number)
+        if single:
+            if test_number == '000':
+                logging.debug('Dummy test to setup xfstests')
+                return
+            logging.debug("Running test: %s" % test_number)
+            self._run_sub_test(test_number)
+        else:
+            self.create_partitions(filesystem)
+            self._run_suite()
+            self.unmount_partitions()
