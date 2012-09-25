@@ -40,10 +40,10 @@ sudo parted $DEVICE mkpart -s p6 80501MiB 81000MiB
 if [ $FS = "xfs" ]; then
     FS_OPT=-f
 fi
-sudo mkfs.$FS $FS_OPT /dev/sdb1
-sudo mkfs.$FS $FS_OPT /dev/sdb2
-sudo mkfs.$FS $FS_OPT /dev/sdb3
-sudo mkfs.$FS $FS_OPT /dev/sdb4
-sudo mkfs.$FS $FS_OPT /dev/sdb5
+sudo mkfs.$FS $FS_OPT ${DEVICE}1
+sudo mkfs.$FS $FS_OPT ${DEVICE}2
+sudo mkfs.$FS $FS_OPT ${DEVICE}3
+sudo mkfs.$FS $FS_OPT ${DEVICE}4
+sudo mkfs.$FS $FS_OPT ${DEVICE}5
 sudo parted $DEVICE print
 
