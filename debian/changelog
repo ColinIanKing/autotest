@@ -1,8 +1,52 @@
 ubuntu-autotest (0.0.2-1) unstable; urgency=low
 
+  * UBUNTU: SAUCE: create-test-partitions, a script for creating all the partitions we want using the specified device
+  * UBUNTU: SAUCE: xfstests: Run the full tests suite as recomended by upstrea for all releases Precise and later. For pre-Precise releases, continue to run them as we always have. We have too many cases where the tests will hang on pre-Precise releases.
+  * UBUNTU: SAUCE: xfstests.tar.bz2: Latest snapshot of the oss.sgi.com git repository (Sept. 19, 2012)
+  * UBUNTU: SAUCE: Pass meter network paramaters into the power test
+  * UBUNTU: SAUCE: power_consumption: update instrument-lib tarball
+  * UBUNTU: SAUCE: power_consumption: generate data for graphing correctly
+  * UBUNTU: SAUCE: power_consumption: initial code drop
+  * UBUNTU: SAUCE: add wakeup event test
+  * UBUNTU: SAUCE: New snapshot of the ecryptfs tests
+  * UBUNTU: SAUCE: ecryptfs/control: Fix the FS_BLACKLIST checking
+  * UBUNTU: SAUCE: ltp: New snapshot of upstream ltp code and ubuntu control files.
+  * UBUNTU: SAUCE: xfstests/control.ubuntu: Add xfs tests to the mix for Precise+
+  * UBUNTU: SAUCE: xfstests/control*: Make control.ubuntu.natty and control.ubuntu.oneiric symlinks to control.ubuntu.lucid
+  * UBUNTU: SAUCE: xfstests/control.ubuntu*: removed 272 out of the rotation, it is hanging on multiple series
+  * ecryptfs/control*: added per filesystem blacklisting capability
+  * ecryptfs/control: set a timeout of 60 minutes for each test
+  * qrt/control: set a timeout of 60 minutes for each test
+  * UBUNTU: SAUCE: ecryptfs: excluding some tests from some series (known failures)
+  * UBUNTU: SAUCE: Adding AppArmor tests into the mix
+  * control.ubuntu*: adding in the UBUNTU_SCRATCH* variables and some series specific control files
+  * Add test name to metrics data file
+  * UBUNTU: SAUCE: ecryptfs snapshot
+  * UBUNTU: SAUCE: qrt snapshot
+  * Merge branch 'master-next' of zinc.canonical.com:/srv/kernel.ubuntu.com/git/ubuntu/autotest into master-next
+  * UBUNTU: Startnewrelease
+  * leap_seconds*: fixup the control file and the python class
+  * leap_seconds.py: needs -lrt
+  * leap_seconds: a test for the leap-seconds bug
+  * control.ubuntu: fix typo
+  * UBUNTU SAUCE: control.ubuntu: a control file for runnint the iperf test
+  * UBUNTU SAUCE: iperf.py: Added a parameter 'barriers' to the run_once which allows the caller to not use barriers.
+  * UBUNTU SAUCE: Created per-series control files for Lucid and Natty which add file-concurrent.sh to their blacklists.
+  * control.ubuntu: commenting out tests that are failing
+  * common_rc.patch: Fix issue with 'params' of the xxx-o-yyy getting turned into mount options when they shouldn't
+  * UBUNTU SAUCE: Commented out two xfstests that are causing issues on Lucid and Natty
+  * qrt.tar.bz2: new snapshot
+  * xfstests/control.ubuntu: Comment out 127
+  * xfstests/control.ubuntu: only test ext4
+  * ecryptfs/control: disable lp-994247
+  * ecryptfs/control: blacklist enospc.sh
+  * ecryptfs/control: added blacklist support
+  * Merge branch 'master-next' of zinc.canonical.com:/srv/kernel.ubuntu.com/git/ubuntu/autotest into master-next
+  * UBUNTU: SAUCE: ecryptfs.tar.bz2: removed the extend-file-random test
+  * Remove test 68 from xfstests control file because it hangs
   * Start new release
 
- -- Steve Conklin <sconklin@canonical.com>  Mon, 27 Aug 2012 10:51:45 -0600
+ -- Steve Conklin <sconklin@canonical.com>  Mon, 25 Sep 2012 14:23:12 -0600
 
 ubuntu-autotest (0.0.1-1) unstable; urgency=low
 
