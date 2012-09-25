@@ -1,5 +1,6 @@
 ubuntu-autotest (0.0.3-1) unstable; urgency=low
 
+  * UBUNTU: SAUCE: control.ubuntu, now testing xfs, ext4 and btrfs for Precise and Quantal
   * Start new release
 
  -- Steve Conklin <sconklin@canonical.com>  Mon, 25 Sep 2012 14:23:12 -0600
