@@ -436,7 +436,7 @@ for fs_type in FS_TYPES:
     for test in testlist:
     	if ('generic' in TEST_MATRIX[test]) or (fs_type in TEST_MATRIX[test]):
            tag = "%s.%s" % (test, fs_type)
-           result = job.run_test_detail('xfstests', test_number=test, tag=tag, single=True)
+           result = job.run_test_detail('xfstests', filesystem=fs_type, test_number=test, tag=tag, single=True)
     p.unmount()
 
 # It is good practice to unmount the partition created

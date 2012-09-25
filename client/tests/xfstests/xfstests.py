@@ -84,7 +84,7 @@ class xfstests(test.test):
                       ", ".join(self._get_available_tests()))
 
     def create_partitions(self, filesystem):
-        print('++++++++    /bin/bash ../create-test-partitions %s %s' % (os.environ['XFSTESTS_TEST_DRIVE'], filesystem))
+        print('/bin/bash ../create-test-partitions %s %s' % (os.environ['XFSTESTS_TEST_DRIVE'], filesystem))
         return utils.system('/bin/bash ../create-test-partitions %s %s' % (os.environ['XFSTESTS_TEST_DRIVE'], filesystem))
 
     def unmount_partitions(self):
@@ -95,6 +95,8 @@ class xfstests(test.test):
         os.chdir(self.srcdir)
         if single:
             if test_number == '000':
+                self.unmount_partitions()
+                self.create_partitions(filesystem)
                 logging.debug('Dummy test to setup xfstests')
                 return
             logging.debug("Running test: %s" % test_number)
