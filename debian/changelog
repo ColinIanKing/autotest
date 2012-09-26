@@ -1,5 +1,13 @@
 ubuntu-autotest (0.0.4-1) unstable; urgency=low
 
+  * UBUNTU: SAUCE: control.ubuntu.lucid, base the scratch partion(s) off of a single scratch device
+  * UBUNTU: SAUCE: create-test-partitions, the device was hardcoded for making the filesystems which is obviously wrong
+  * UBUNTU: SAUCE: xfstests.py: Need to handle the 'SCRATCH_DEVICE' on individual tests like we do for the full suite
+  * UBUNTU: SAUCE: UBUNTU-BOM, a file listing the snapshots that we keep updated
+  * UBUNTU: SAUCE: snapshot-ecryptfs a script to help keep the snapshot updated
+  * UBUNTU: SAUCE: ecryptfs.tar.bz2: Latest snapshot of the ecryptfs tests (Sept. 25, 2012)
+  * UBUNTU: SAUCE: qrt.tar.bz2: Latest snapshot of the kernel security qrt tests (Sept. 25, 2012)
+  * UBUNTU: SAUCE: xfstests.tar.bz2: Latest snapshot of the oss.sgi.com git repository (Sept. 25, 2012)
   * Start new release
 
  -- Steve Conklin <sconklin@canonical.com>  Mon, 25 Sep 2012 15:05:00 -0600
