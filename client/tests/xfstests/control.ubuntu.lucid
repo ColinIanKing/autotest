@@ -78,7 +78,9 @@ for uarg in args:
 
 # You can use a real block device, such as /dev/sdc1
 #device='/dev/sdb1'
-device=argdict['UBUNTU_SCRATCH_DEVICE']
+scratch_device = argdict['UBUNTU_SCRATCH_DEVICE']
+device = '%s1' % scratch_device
+os.environ['XFSTESTS_TEST_DRIVE'] = device
 
 # By default, we create a directory under autotest
 mountpoint = os.path.join(job.tmpdir, 'xfstests')
@@ -100,7 +102,7 @@ os.environ['TEST_DIR'] = p.mountpoint
 
 # SCRATCH_DEV "device containing SCRATCH PARTITION"
 #os.environ['SCRATCH_DEV'] = '/dev/sdb2'
-os.environ['SCRATCH_DEV'] = argdict['UBUNTU_SCRATCH_PARTITION']
+os.environ['SCRATCH_DEV'] = '%s2' % scratch_device
 
 # SCRATCH_MNT "mount point for SCRATCH PARTITION"
 os.environ['SCRATCH_MNT'] = '/media/xfsmount'
