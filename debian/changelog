@@ -1,11 +1,102 @@
-autotest (0.16.0-4-g8ad06) saucy; urgency=medium
+ubuntu-autotest (0.0.7-1) unstable; urgency=low
 
-  * Automated (make builddeb) build.
+ * This represents upstream version "0.15.0-rc0-54-g1568d" plus our sauce patches
 
- -- Lucas Meneghel Rodrigues (lmr) <lookkas@gmail.com>  Thu, 27 Mar 2014 23:13:14 -0300
+ -- Steve Conklin <sconklin@canonical.com>  Mon, 21 Oct 2013 11:14:47 -0600
 
-autotest (0.15.0-rc0-54-g1568d) raring; urgency=low
+ubuntu-autotest (0.0.6-1) unstable; urgency=low
 
-  * Initial release.
+ * UBUNTU: SAUCE: [results2junit.py] Clean the text so the parser can deal with it.
 
- -- Lucas Meneghel Rodrigues (lmr) <lookkas@gmail.com>  Thu, 27 Dec 2012 06:49:43 -0200
+ -- Brad Figg <brad.figg@canonical.com>  Tue, 04 Dec 2012 11:43:33 -0800
+
+ubuntu-autotest (0.0.5-1) unstable; urgency=low
+
+ * This is a major refactor to reduce the number of suce patches we carry on upstream autotest, as well as a new upstream version
+ * UBUNTU: SAUCE: Import old changelog
+ * UBUNTU: SAUCE: glue_testsuites: a tool for stitching together autotest-results files.
+ * UBUNTU: SAUCE: Added process_metrics.py script to turn benchmark results into json data
+ * UBUNTU: SAUCE: Notes about work ongoing on Ubuntu
+ * UBUNTU: SAUCE: Add junit2xml.py script
+ * New upstream autotest - version 0.15.0-rc0
+
+ -- Steve Conklin <sconklin@canonical.com>  Fri, 05 Oct 2012 12:50:03 -0600
+
+ubuntu-autotest (0.0.4-1) unstable; urgency=low
+
+  * UBUNTU: SAUCE: control.ubuntu.lucid, base the scratch partion(s) off of a single scratch device
+  * UBUNTU: SAUCE: create-test-partitions, the device was hardcoded for making the filesystems which is obviously wrong
+  * UBUNTU: SAUCE: xfstests.py: Need to handle the 'SCRATCH_DEVICE' on individual tests like we do for the full suite
+  * UBUNTU: SAUCE: UBUNTU-BOM, a file listing the snapshots that we keep updated
+  * UBUNTU: SAUCE: snapshot-ecryptfs a script to help keep the snapshot updated
+  * UBUNTU: SAUCE: ecryptfs.tar.bz2: Latest snapshot of the ecryptfs tests (Sept. 25, 2012)
+  * UBUNTU: SAUCE: qrt.tar.bz2: Latest snapshot of the kernel security qrt tests (Sept. 25, 2012)
+  * UBUNTU: SAUCE: xfstests.tar.bz2: Latest snapshot of the oss.sgi.com git repository (Sept. 25, 2012)
+  * Start new release
+
+ -- Steve Conklin <sconklin@canonical.com>  Mon, 25 Sep 2012 15:05:00 -0600
+
+ubuntu-autotest (0.0.3-1) unstable; urgency=low
+
+  * UBUNTU: SAUCE: control.ubuntu, now testing xfs, ext4 and btrfs for Precise and Quantal
+  * Start new release
+
+ -- Steve Conklin <sconklin@canonical.com>  Mon, 25 Sep 2012 14:23:12 -0600
+
+ubuntu-autotest (0.0.2-1) unstable; urgency=low
+
+  * UBUNTU: SAUCE: create-test-partitions, a script for creating all the partitions we want using the specified device
+  * UBUNTU: SAUCE: xfstests: Run the full tests suite as recomended by upstrea for all releases Precise and later. For pre-Precise releases, continue to run them as we always have. We have too many cases where the tests will hang on pre-Precise releases.
+  * UBUNTU: SAUCE: xfstests.tar.bz2: Latest snapshot of the oss.sgi.com git repository (Sept. 19, 2012)
+  * UBUNTU: SAUCE: Pass meter network paramaters into the power test
+  * UBUNTU: SAUCE: power_consumption: update instrument-lib tarball
+  * UBUNTU: SAUCE: power_consumption: generate data for graphing correctly
+  * UBUNTU: SAUCE: power_consumption: initial code drop
+  * UBUNTU: SAUCE: add wakeup event test
+  * UBUNTU: SAUCE: New snapshot of the ecryptfs tests
+  * UBUNTU: SAUCE: ecryptfs/control: Fix the FS_BLACKLIST checking
+  * UBUNTU: SAUCE: ltp: New snapshot of upstream ltp code and ubuntu control files.
+  * UBUNTU: SAUCE: xfstests/control.ubuntu: Add xfs tests to the mix for Precise+
+  * UBUNTU: SAUCE: xfstests/control*: Make control.ubuntu.natty and control.ubuntu.oneiric symlinks to control.ubuntu.lucid
+  * UBUNTU: SAUCE: xfstests/control.ubuntu*: removed 272 out of the rotation, it is hanging on multiple series
+  * ecryptfs/control*: added per filesystem blacklisting capability
+  * ecryptfs/control: set a timeout of 60 minutes for each test
+  * qrt/control: set a timeout of 60 minutes for each test
+  * UBUNTU: SAUCE: ecryptfs: excluding some tests from some series (known failures)
+  * UBUNTU: SAUCE: Adding AppArmor tests into the mix
+  * control.ubuntu*: adding in the UBUNTU_SCRATCH* variables and some series specific control files
+  * Add test name to metrics data file
+  * UBUNTU: SAUCE: ecryptfs snapshot
+  * UBUNTU: SAUCE: qrt snapshot
+  * Merge branch 'master-next' of zinc.canonical.com:/srv/kernel.ubuntu.com/git/ubuntu/autotest into master-next
+  * UBUNTU: Startnewrelease
+  * leap_seconds*: fixup the control file and the python class
+  * leap_seconds.py: needs -lrt
+  * leap_seconds: a test for the leap-seconds bug
+  * control.ubuntu: fix typo
+  * UBUNTU SAUCE: control.ubuntu: a control file for runnint the iperf test
+  * UBUNTU SAUCE: iperf.py: Added a parameter 'barriers' to the run_once which allows the caller to not use barriers.
+  * UBUNTU SAUCE: Created per-series control files for Lucid and Natty which add file-concurrent.sh to their blacklists.
+  * control.ubuntu: commenting out tests that are failing
+  * common_rc.patch: Fix issue with 'params' of the xxx-o-yyy getting turned into mount options when they shouldn't
+  * UBUNTU SAUCE: Commented out two xfstests that are causing issues on Lucid and Natty
+  * qrt.tar.bz2: new snapshot
+  * xfstests/control.ubuntu: Comment out 127
+  * xfstests/control.ubuntu: only test ext4
+  * ecryptfs/control: disable lp-994247
+  * ecryptfs/control: blacklist enospc.sh
+  * ecryptfs/control: added blacklist support
+  * Merge branch 'master-next' of zinc.canonical.com:/srv/kernel.ubuntu.com/git/ubuntu/autotest into master-next
+  * UBUNTU: SAUCE: ecryptfs.tar.bz2: removed the extend-file-random test
+  * Remove test 68 from xfstests control file because it hangs
+  * Start new release
+
+ -- Steve Conklin <sconklin@canonical.com>  Mon, 25 Sep 2012 14:23:12 -0600
+
+ubuntu-autotest (0.0.1-1) unstable; urgency=low
+
+  * Initial internal versioning release for Ubuntu
+  * Switch to debian release versioning
+  * Add changelog
+
+ -- Steve Conklin <sconklin@canonical.com>  Mon, 27 Aug 2012 10:15:16 -0600
