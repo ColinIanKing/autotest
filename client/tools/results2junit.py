@@ -126,10 +126,7 @@ def main(basedir, resfiles):
         hn = "localhost"
 
     testsuites = api.testsuites()
-    ts = api.testsuite(name="Autotest tests")
     properties = api.propertiesType()
-    ts.hostname = hn
-    ts.timestamp = date.isoformat(date.today())
 
     # collect some existing report file contents as properties
     if False:  # Not sure, the properties don't seem to do anything for us right now.
@@ -166,6 +163,7 @@ def main(basedir, resfiles):
     failures = 0
     errors = 0
     time = 0
+    ts = None
     if len(results):
         for r in results:
 
@@ -184,8 +182,14 @@ def main(basedir, resfiles):
             else:
                 suite = tname
                 name = tname
+
+            if ts is None:
+                ts = api.testsuite(name="Autotest - %s" % suite)
+                ts.hostname = hn
+                ts.timestamp = date.isoformat(date.today())
+
             tc.name = name
-            tc.classname = 'autotest.%s' % suite
+            tc.classname = 'autotest.%s' % (suite)
             tc.time = int(r[2])
             tests = tests + 1
             fid = os.path.join(basedir, tname, 'debug', '%s.DEBUG' % tname)
