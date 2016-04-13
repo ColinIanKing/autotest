@@ -41,6 +41,8 @@ class harness_standalone(harness.harness):
             shutil.copyfile(src, dest)
             job.control_set(dest)
 
+        return # bjf - Ubuntu hack
+
         def yield_default_initlevel():
             """
             If we really can't figure out something better, default to '2',
@@ -89,12 +91,12 @@ class harness_standalone(harness.harness):
             service_link = '/etc/init.d/rc%s.d/S99autotest' % initdefault
         else:
             service_link = '/etc/rc%s.d/S99autotest' % initdefault
-        try:
-            if os.path.islink(service):
-                os.remove(service)
-            if os.path.islink(service_link):
-                os.remove(service_link)
-            os.symlink(rc, service)
-            os.symlink(rc, service_link)
-        except (OSError, IOError):
-            logging.info("Could not symlink init scripts (lack of permissions)")
+        # UBUNTU SAUCE try:
+        # UBUNTU SAUCE     if os.path.islink(service):
+        # UBUNTU SAUCE         os.remove(service)
+        # UBUNTU SAUCE     if os.path.islink(service_link):
+        # UBUNTU SAUCE         os.remove(service_link)
+        # UBUNTU SAUCE     os.symlink(rc, service)
+        # UBUNTU SAUCE     os.symlink(rc, service_link)
+        # UBUNTU SAUCE except (OSError, IOError):
+        # UBUNTU SAUCE     logging.info("Could not symlink init scripts (lack of permissions)")
