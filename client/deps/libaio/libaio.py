@@ -22,5 +22,5 @@ def setup(tarball, topdir):
 # https://github.com/autotest/autotest/tree/master/client/deps/libaio
 
 pwd = os.getcwd()
-tarball = os.path.join(pwd, 'libaio_0.3.110-1.tar.gz')
+tarball = os.path.join(pwd, 'libaio-0.3.110-1.tar.gz')
 utils.update_version(pwd + '/src', False, version, setup, tarball, pwd)
