@@ -50,6 +50,7 @@ def text_clean(text):
     if text is not None:
         retval = retval.replace('\xe2\x80\x98', "'")
         retval = retval.replace('\xe2\x80\x99', "'")
+        retval = retval.replace('\xe2\x97\x8f', "*")
         retval = retval.replace('\xe2', "")
         retval = retval.replace('\x86', "")
         retval = retval.replace('\x92', "")
