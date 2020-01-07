@@ -19,12 +19,8 @@ _DEFAULT_COMMANDS_TO_LOG_PER_BOOT = [
     "uptime", "dmidecode", "ifconfig -a", "brctl show", "ip link",
     "numactl --hardware show", "lscpu", "fdisk -l",
 ]
-_DEFAULT_COMMANDS_TO_LOG_BEFORE_ITERATION = [
-    "find /lib/modules/$(uname -r) -type f -name '*.ko'"
-]
-_DEFAULT_COMMANDS_TO_LOG_AFTER_ITERATION = [
-    "find /lib/modules/$(uname -r) -type f -name '*.ko'"
-]
+_DEFAULT_COMMANDS_TO_LOG_BEFORE_ITERATION = []
+_DEFAULT_COMMANDS_TO_LOG_AFTER_ITERATION = []
 
 _DEFAULT_FILES_TO_LOG_PER_TEST = []
 _DEFAULT_FILES_TO_LOG_PER_BOOT = [
