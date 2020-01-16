@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python2
 # encoding: utf-8
 """
 run_helper takes care about running command when parent process dies.

@@ -518,7 +518,7 @@ and ``last_value``:
 
 ::
 
-    #!/usr/bin/python
+    #!/usr/bin/python2
 
     header= """# This file describes the network interfaces available on your system
     # and how to activate them. For more information, see interfaces(5).

@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python2
 #
 # Script for translating console output (from STDIN) into Autotest
 # warning messages.

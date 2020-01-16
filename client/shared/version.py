@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python2
 """
 Based on work from Douglas Creager <dcreager@dcreager.net>
 

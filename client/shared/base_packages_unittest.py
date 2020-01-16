@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python2
 #  Copyright(c) 2013 Intel Corporation.
 #
 #  This program is free software; you can redistribute it and/or modify it

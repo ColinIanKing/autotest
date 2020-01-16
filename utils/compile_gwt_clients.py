@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python2
 try:
     import autotest.common as common
 except ImportError:
