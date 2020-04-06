@@ -910,7 +910,7 @@ class virtual_partition:
         """
         logging.debug('Creating single partition on %s', loop_path)
         try:
-            single_part_cmd = '0,,c\n'
+            single_part_cmd = ',,c\n'
             sfdisk_file_path = '/tmp/create_partition.sfdisk'
             sfdisk_cmd_file = open(sfdisk_file_path, 'w')
             sfdisk_cmd_file.write(single_part_cmd)
