@@ -62,7 +62,7 @@ def do_not_report_as_logging_caller(func):
 
 # Copied from Python 2.4 logging/__init__.py Logger.findCaller and enhanced.
 # The logging code is compatible with this monkey patching with Python 3.4.5.
-def _logging_manager_aware_logger__find_caller(_unused, _unused2):
+def _logging_manager_aware_logger__find_caller(_unused, _unused2, *args):
     """
     Find the stack frame of the caller so that we can note the source
     file name, line number and function name.
