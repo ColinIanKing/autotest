@@ -54,7 +54,6 @@ def text_clean(text):
         retval = retval.replace('\xe2', "")
         retval = retval.replace('\x86', "")
         retval = retval.replace('\x92', "")
-        retval = retval.decode("utf-8")
     return retval
 
 # file_load
