@@ -1505,7 +1505,7 @@ class errorType(GeneratedsSuper):
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='errorType')
         if self.hasContent_():
             outfile.write('>')
-            outfile.write(str(self.valueOf_).encode(ExternalEncoding))
+            outfile.write(self.valueOf_.decode('utf-8').encode(ExternalEncoding, 'backslashreplace'))
             self.exportChildren(outfile, level + 1, namespace_, name_)
             outfile.write('</%s%s>\n' % (namespace_, name_))
         else:
@@ -1617,7 +1617,7 @@ class failureType(GeneratedsSuper):
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='failureType')
         if self.hasContent_():
             outfile.write('>')
-            outfile.write(str(self.valueOf_).encode(ExternalEncoding))
+            outfile.write(self.valueOf_.decode('utf-8').encode(ExternalEncoding, 'backslashreplace'))
             self.exportChildren(outfile, level + 1, namespace_, name_)
             outfile.write('</%s%s>\n' % (namespace_, name_))
         else:
