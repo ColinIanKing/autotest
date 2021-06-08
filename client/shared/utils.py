@@ -862,11 +862,7 @@ def update_version(srcdir, preserve_srcdir, new_version, install,
                                      os.path.basename(patch_src))
             shutil.copyfile(patch_src, patch_dst)
 
-    # The test-specific setup is always needed because:
-    #  - it could have been reverted with cleanup()
-    #  - few broken tests might depend on setup() run always
-    install(*args, **dargs)
-    if install_needed:
+        install(*args, **dargs)
         pickle.dump(new_version, open(versionfile, 'w'))
 
 
